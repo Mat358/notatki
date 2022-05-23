@@ -1,0 +1,446 @@
+1. QA (podstawy)
+
+Smoke test - Testowanie najwazniejszych funkcji programu np czy program sie wlacza
+
+Error - blad ludzki np w kodzie czy inny przy tworzeniu aplikacji
+Defect - efekt erroru - jest to roznica w realnym a oczekiwanym dzialaniu aplikacji
+Bug  - Rezultat błędu w kodzie sprawia crash/zle działanie etc.
+Failure - kiedy program nie moze wykoanc porzadanych funkcji
+Fault - niewlasciwie sprecyzowany typ danych w kodzie, zle napisany path (zly krok) moze sprawiac ze program zle sie zachowuje
+
+
+Poziomy testowania:
+1. Unit testing (component testing): testowanie kodu - klas, funkcji (whitebox)
+
+2.Testy integracyjne - testowanie kilku systemow lub modułów:
+    *Big bang - Po stworzeniu modulów zaczynamy testy:
+    -Dobre dla małych systemow
+    -Testerzy czekaja do zakonczenia prac nad wszystkimi modulami by zaczac prace
+    -ryzyko pominiecia jakiegos modulu
+        *Incremental testing:
+            Top bottom:
+            -Krytyczne moduly sa testowane pierwsze
+            -potrzeba duzo stubs - zaslepek (mock)
+            Bottom up:
+            -mało mock ale za to sterowniki trzeba stworzyc
+            -latwiejsza lokalizacja bledu
+
+3.System testing: Testowanie w pelni zintegrowanego produktu:
+    Sprawdzenie interakcji miedzy systemami i sprawdzenie systemu jako calosc
+    Testowanie z poziomu uzytkowanika
+    *Usability testing
+    *Stress testing
+    *Regression testing
+    *Functional testing
+
+4.Akceptacyjne:
+     -validacja (sprawdzenie czy jest jak w specyfikacji od zleceniodawcy)
+     -Weryfikacja - Zgodnosc funkcjonalan i niefunkcjonalna ze specyfikacja
+     *Uat  - user acceptance testing - czyli uzytkownik testuje app
+     *Oat - operation acceptance testing - instalacja , security testing, backup etc.
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Testy statyczne: testy statyczne to technika testowania znajdowania bledow bez uruchamiania kodu.
+    Review to metoda testow statycznych zeby znalesc potencjaldne bledy w designie
+    Mozna znalesc bledy w designie, brak spelnienia wymagan zleceniodawcy, odstepstwa od przyjetych standardow
+    
+    Review:
+    *Informal: nie ma zadnego procesu , pracownicy moga przedstawic swoje komentarze (luzna pogadanka)
+
+    *Walkthroughs: autor dokumentu przedstawia i tlumaczy swoj dokument reszcie zespolu
+
+    *Technical Review: zrobione zeby znalesc techniczne problemy
+
+    *Inspection: moderator skupia sie na znalezieniu bledow podczas przegladu
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Projektowanie przypadkow testowych: pozwalaja tworzyc bardziej skuteczne testy zmniejszajac ich ilosc
+    *BVA - Boundry Velue Analysis - sprawdza wartosci brzegowe
+        -jak mamy wartosci x i y to trzeba sprawdzic (x-,x, x+ & y-, y, y+)
+    *Equivalence Class Partitioning - podział klas rownowaznosci:
+        -dziala dzielac zestaw kilku wartosci w 1 mniejszy np.
+        dla dwoch zestawow wartosci:
+        1 do 10 i 20 do 30:
+
+        1-10 - valid
+        11-19 - not valid
+        20-30 - valid
+        
+        Wybieramy wartosci z kazdej klas losowe z zakresu czyli:
+        -2, 3, 15, 25, 45
+
+    *Tabele decyzyjne: uzywa sie do funkcji ktore maja kombinacje wejsciowe lub zdarzeń
+        np. pole akceptuj powinno byc wyszarzone dopoki uzytkownik nie wypelni wszystkich wymaganych pól (formularz rejestracyjny)
+        np w rzedzie wypisz wszystkie warunki a w kolumnach pola (inputs) ktore muszisz uzupelnic
+        w pustych polach pomiedzy wpisz kombinacje dla warunkow True i False
+    *State Transition (Przejscie stanu): Testowanie np pinu do karty lub innego komponentu w ktorym
+        stan zmienia sie po kilkukrotnym powtorzeniu tego samego inputu. np. 3 razy zle wprowadzic pin i blokuje karte
+        -State transition diagram - zobrazowanie na schemacie blokowym
+        -State transition table - zobrazowanie w tabeli
+    *Error Guessing - doswiadczony tester sprawdza powszechne bledy na podstawie swojego doswiadczenia
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Experience Based Test - testowanie aplikacji przy wykorzystaniu doswiadczenia testera
+    *Error guessing - doswiadczony tester sprawdza powszechne bledy na podstawie swojego doswiadczenia
+    *Exploratory Testing - testowanie aplikacji poprzez jej poznawanie/uzywanie glownie bledy znajduja doswiadczeni Testerzy
+        Typy:
+        -Freestyle:  jak ad hoc free style sprawdzania
+        -Session Based: 
+            -Explore - co chcemy
+            -with - czym chcemy (np logowanie za pomoca gmail)
+            -to - discover co chcemy okryc (np czy falszywe maile mozna dac)
+        -Scenario based:
+            1. After-Hours Tour - skoncentrowane na wykonaniu zadan, np. archiwizacji danych i kopi zapasowej
+            2. All-Night tour - dlugie testowanie jednej rzeczy np. uruchomienie programu na cala noc
+            3. Antisocial Tour - robienie wszystkiego na przeciw wytycznym
+            4. Back Alley Tour - testowanie najmniej potrzebnych funkcji
+            5. Bad-Neighborhood Tour - Testowanie obszarow najbardziej zabugowanych
+            6. Collector's Tour - Sprawdzenie najwiekszej ilsoci funkcji jak najszybciej
+            7. Couch potato Tour - testowanie na podstawowoych wartosciach
+            8. FeedEx Tour - Sledzenie danych od wprowadzenia do outputu
+            9. Garbage Collector's Tour - Sprawdzanie miejsc gdzie najwiecej sciezek
+            10. Guidebook Tour - Sprawdzanie czy dane dostarczone przez aplikacje sie zgadzaja
+            11. Intellectual Tour - Zadawanie programom trudnych pytań
+            12. Landmark Tour - Proste interakcje na grupie funkcji
+            13. Lonely Businessman Tour - testowanie najdluzsza sciezka (np po zalogowaniu powrot do home i dopiero logout)
+            14. Money Tour Perform - koncetracja na krytycznych bledach waznych dla klienta
+            15. Museum Tour - Sprawdzanie starszych czesci programu
+            16. Obsessive-Compulsive Tour - powtarzanie szybko akcji np ciagle restartowanie strony
+            17. Prior Version Tour - Powtarzanie tych samych testow na nowej wersji - regresja
+            18. Rained-Out Tour - Przerwanie akcji w trakcie
+            19. Saboteur Tour - Wykonywanie akcji np. zaciagniecia danych i odciecie w trakcie dostepu do bazy
+            20. Scottish Pub Tour - cos jak mob test oparte na dyskusji z innymi
+            21. Supermodel Tour Choose - sprawdzenie glownie GUI
+
+        -Scenario based: 
+        -Mob testing - grupa testuje - wszystkie pomysly sa brane pod uwage
+    *Checklist Based Testing - tworzenie checklisty przez doswiadczonego testera i testow na jej podstawie
+
+
+    *Agile manifesto:
+        -Testy nie powinny sie nigdy konczyc, czyli powinny byc przeprowadzane nawet po kazdej zmianie nawet po wydaniu aplikacji
+        -Wazniejsze jest przeciwdzialanie bugom a nie ich znalezienie np. wprowadzajac w dokumentacji jakies reguly 
+        dla np. najczęstszych bledow
+        -Testy powinny byc zrozumiane a nie slepo przeprowadzane
+        -Powinno sie skupic na budownie najlepszego systemu a nie jego zepsuciu 
+        -Odpowiedzialnosc zbiorowa a nie jednostkowa bez wytykania palcami - skupienie na celu - naprawa a nie szukaniu winnych
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+Test Management - polega na utrzymaniu procesu testowania w ogolnym ładzie by dostarczyc produkt wysokiej jakosci
+    *Planowanie:
+        -Analiza ryzyka - co powinno byc testowane na podstawie ryzyka
+        -Przewidywanie testów - sprawdzamy co trzeba zrobic i ile to zajmie
+        -Planowanie testów - dokumentacja definujaca co i jak bedzie testowane
+        -Organizacja testów - definiuje sie role kto bedzie w procesie testowania i kto bedzie za co odpowiedzialny
+    *Wykonywanie:
+        -Monitorowanie i kontrola testów - proces weryfikacji co sie dzieje i jak druzyna wykonuje testy, robi raporty, review
+        -Zarządzanie problemami / blędami - wykonywanie działan w przypadku wystapienia nieprzewidzianych problemów 
+        -Raportowanie i ocena - czy sa spelnione kryteria wyjscia
+
+Defect Management - Systematyczny proces pozwalajacy identyfikowac i naprawiac bugi
+    -Discovery of Defect
+    -Defect Categorization
+    -Fixing of Defect by Developers
+    -Veryfication by testingRegression-Defect Closure
+    -Defect Report and end of project
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+Test Monitoring - To feedback na temat testów które sa aktualnie przeprowadzane ma to zapewnic ze beda utrzymane cele i wytyczne
+    *Co oferuje:
+        -Feedback do QA i klienta
+        -Ukazuje jaka czesc testow jest wykonana i z jakim skutkiem
+        -Daje wskazowki jak powinno wygladac kolejen planowanie i estymacja
+    *Co sprawdza:
+        -Pokrycie testów
+        -Statystiki testów ile ok/ng/hold/blocked
+        -Dotychczasowy koszt testów
+        -Wykorzystane zasoby
+        -Status kazdego zadania - pozwala na lepsze planowanie
+        -Zgodnosc z wymaganiami
+Test Control - stosowanie akcji korekcyjnych bazujac na raportach z monitoringu w celu zwiekszenia jakosci i efektywnosci testow
+    *Co z tego wynika:
+        -Na jego podstawie mozna przeniesc sile przerobowa do innych problemow
+        -Zmiana harmonogramu i deadlinow
+        -Zmiana srodowiska
+        -Zmiana priorytetow zadan
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+Test Organization - Kto ma co robic testowac, jak i czym:
+    -
+Test Planning - Tworzenie szczegolowej dokumentacji na temat tego jaka jest strategia, cele, plan, deadline testowania
+    *Skladowe planu testowania:
+        -Scope - opisuje cele testowania, zawiera tez scenariusze uzytkowanika
+        -Schedule - zawiera info kiedy testy sie zaczynaja i kiedy jest deadline
+        -Resource Allocation - opisuje ktory tester bedzie gdzie testowac
+        -Enviornment - opisuje nature, konfiguracje i mozliwosci srodowiska testowania
+        -Tools - definiuje jakich narzedzi uzywamy do raportowania bugów, testowania itp.
+        -Defect Managment - opis jak beda raportowane bugi, do kogo czy raporty maja miec SS albo video itp.
+        -Risk Managment - opisuje jakie ryzyko moze zostac podjete, czyli np. czego testowanie mozna pominac pod plaszczem ryzyka
+        -Exit Parameters - opisuje kryteria zakonczenia testowania , czyli kiedy deadline, po jakiej ilsoci testow etc.
+    *Tworzenie planu testowania:
+        -Product Analysis - kto bedzie uzywac oprogramowania? Jaki jest jego cel? Specyfikacja sprzetu na ktorym ma dzialac?
+        -Designing Test Strategy - cele projektu i jak je osiagnac, ile wysilku i pieniedzy jest do tego potrzebne
+        -Defining Objectives - opis funkcji, GUI, wydajnosci
+        -Establish Test Criteria - kryteria np. 50% bugów to stop i naprawiamy, albo 80% ok to lecimy dalej
+        -Planning Resource Allocation - przyporzadkowanie osob, sprzetu, narzedzi
+        -Planning Setup of Test Environment - oprogramowanie i sprzet na ktorym beda robione testy (najlepiej jakby to byl docelowy sprzet)
+        -Determine test schedule and estimation - podzielenie projektu na male kawalki i dodanie do nich czasu wykonania
+        -Establish Test Deliverables - co trzeba dostarczyc po skonczeniu czyli dokumentacje, narzedzia , wyposazenie (np. jakis sterownik)
+
+Test Estimation - Przewidywanie ile czasu, wysilku i jaki bedzie koszt testowania
+    *Co Estymujemy:
+        -Resources: Zasoby potrzebne do wykonania projektu np. Ludzie, finansowanie, sprzet, miejsce pracy
+        -Times: Deadliny dostarczenia danej czesci lub calosci
+        -Human Skills: doswiadczenie druzyny wplywa na czas ukonczenia testow, przy mniej doswiadczonych ludziach czas bedzie dluzszy
+        -Cost: Ile pieniedzy jest do dyspozycji
+    *Metody estymacji:
+        -Work Breakdown Structure:
+            -Podzielenie projektu na najmniejsze mozliwe czesci
+            -Przypisz zadania do osob
+                    -Functional Point Method:
+                        -Przewidywanie wielkosci zadania
+                        -Przewidywanie czasu zadania
+                        -Koszt zadania
+                    -Three Point Estimation
+                        -Przewidujemy najlepszy, prawdopodobny i najgorszy scenariusz
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+**********************************************************************************
+**********************************************************************************
+**********************************************************************************
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+2. Python 
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+**********************************************************************************
+**********************************************************************************
+**********************************************************************************
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+3. Embedded:
+SPI: https://pl.jf-parede.pt/understanding-about-spi-communication-protocol-embedded
+UART: https://pl.jf-parede.pt/uart-communication-block-diagram
+
+    -Czym jest embedded:
+        Embedded to system wbudowany - najprościej mówiąc oprogramowanie sterujące pracą
+        jakiegoś urządzenia od wewnątrz, czyli gdy urządzenie zawiera w sobie kontroler.
+        np. Fotokomorka bramy, w przypadku przeszkody ruch bramy sie zatrzymuje.
+
+        Prosta zasada dzialania:
+            -Mamy input np. fotokomorka wysyla dane do systemu wbudowanego
+            -System podejmuje decyzje np. ze czujka jest zaslonieta i wysyla sygnal do silnika bramy
+            -Silnik bramy staje
+
+
+	-Interfejs SPI:
+        *EEPROM - elektrycznie kasowalna i programowalna pamięć tylko do odczytu 
+            pamiec nie zanikajaca po ustaniu zasilania
+        *full-duplex - pozwala na przesylanie dancyh w obie strony w tym samym czasie z uzyciem jednego kanalu
+            predkosc jest dostosowana do najwolniejszego z ukladow
+
+        SPI - Magistrala szeregowa - stosowana w systemach opartych o mikrokontrolery pozwala na transmisje dancyh 
+            full-duplex
+
+        Master - Mikrokontroler
+        Slave - inne urzadzenia np.czujniki
+
+        Magistrala zbudowana jest z 4 lub 3 lini:
+            CLK - (mosi) zegra sterowany przez master do synchronizacji wysylania danych
+            MISO - master in slave out
+            MOSI - master out slave in
+            SS (Slave select) / CS (Chip select) - sluzy do wybierania urzadzen podrzednych kierowana przez master
+       
+        Transmisja w SPI odbywa sie po 1 bajcie (8b) w jednym cyklu ale
+        na sekunde moze wyslać wiecej zależnie od częstotliwosci
+
+	-Interfejs UART
+        UART - Universal Asynchronous Reciver / Transmiter:
+            To układ scalony wbudowany w mikrokontroler. Jego główna funkcja jest szeregowa komunikacja danych
+            Moze w nim sie odbywac komunikacja na dwa sposoby:
+                -szeregowa komunikacja danych - bitowo po jednym kablu (2 zyly)
+                -równolegla komunikacja dancyh - dane wwysylane jednoczesnie wieloma kablami
+
+            Schemat blokowy UART sklada sie z dwóch elementow odbiornika i nadajnika
+
+                -Nadajnik zawiera:
+                    rejestr zatrzymania transmisji - zawiera bajt danych do wyslania
+                    rejestr przesuwny - przesuwa bity w lewo lub prawo do momentu wyslania
+                    logike sterujaca
+
+                -Odbiornik zawiera:
+                    rejestr wstrzymania odbioru
+                    rejestr przesuwny - przesuwa bity w lewo lub prawo do momentu wyslania
+                    logike sterowania - odpowiada za informacje kiedy zapisywac lub odczytywac dane
+                -Generator:
+                    Generuje predkosc gdy nadajnik i odbiornik musza przeslac dane
+                     w zakresie 100 bps do 230400 bps
+            Komunikacja w UART:
+                Sa dwa typy:
+                    -Transmitujace UART
+                    -Odbdierajace UART
+                Miedzy tymi dwoma moze byc wykonywana transmisja bezposrednio przez siebie
+                Dlatego wymagane sa tylko 2 kable
+                Przesyl danych z Tx UART do Rx UART moze odbywac sie asynchronicznie (brak CLK)
+
+                Transmisja moze odbywac sie za pomoca magistrali danych w postaci rownoleglej
+                poprzez inne urzadzenia np. mikrokontroler.
+                Gdy mikrokontrolel odbiera dane z magistrali dodaje 3 bity do stworzonego pakietu:
+                    -bit strat - bit synchronizacji umieszczany przed rzeczywistymi danymi
+                    na lini danych zmienia wysokie napicecie na niskie napiecie by zaczac przesylanie
+                    
+                    -bit stop - na koncu pakeitu danych zmeinia niskie napisecie na wysokie
+                    zeby zatrzymac transmisje
+                   
+                    -bit parzystosc - niskopoziomowy system sprawdzania błędów, nie jest obowiązkowy
+
+                    -bit danych lub ramka danych - to dane przekazywane do nadawcy
+
+        -jak testujemy embedded:
+            -On-target testing - na docelowym sprzecie
+            -On-host testing - na hoscie o innym sprzecie
+
+
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+**********************************************************************************
+**********************************************************************************
+**********************************************************************************
+//////////////////////////////////////////////////////////////////////////////////////////////
+
+
+4. Linux:
+	-Podstawy operacji na plikach i folderach:
+        Tip:
+        -Zamiast pisac sudo przed komendami mozna uzyc "sudo -s" - wtedy wszystkie komendy sa z poziomu root
+        - np. ls -la | sort - Robi jakby jedna komende z 2 wlasciwosciami listuje posortowane
+        - WSZYSTKIE dostepne atrybuty mozna zobaczyc piszac np. $man ls (man musi byc zainstalwoany) lub ls --help 
+
+        ls | list directory
+        ls -la | pokazuje dokladnie pliki ukryte, daty i foldery
+        cd | zmiana folderu
+        mv | zmiana nazwy albo przeniesienia pliku lbu folderu np. mv x.txt /home/nox/hs/zz.txt
+        mkdir | Tworzy folder
+        rmdir | usuwa folder
+        touch | tworzy pliki
+        rm | usuwa pliki rm -r folder - usuwa nawet z zawartoscia bez ostrzezenia
+        locate -i rockyou.txt | wyszukuje plik - i case sensitive
+        cp | kopiowanie plikow i folderow
+        cat | pokazuje w terminalu zawartosc pliku
+        less | pokazuje w terminalu zawartosc pliku z podzialem na strony
+        chown nox bash.txt | robie z nox wlasciciela pliku
+        chmod 777 | zmiana uprawnien do pliku 777 - odczyt, zapis, uruchamianie dla wszystkich
+        find /home/ -name bash.txt | wyszukuje plik po nazwie
+        grep run todo.txt | wyszukuje slowo run w pliku todo.txt
+        date | podaje date i pozwala ja ustawic
+        df | pokazuje jak wyglada przestrzen dyskowa
+        file | pokazuje typ pliku
+        history | pokazuje historie komand uzytych w terminalu przez uzytkownika
+        ps aux | szczergolowa lista procesów
+        kill 485 | zakancza proces o PID : 485
+        tar | winrar linuxowy obslugiwany z bash
+        top | Jak task manager w win
+
+        ****************************************************
+        ssh | pozwala logowac sie na inna maszyne linuxowa
+
+        logowanie:
+        ssh mateusz@globallogic.com - łaczy po ssh nazwa usera mateusz i serwer to globallogic.com
+
+        kopiowanie z klient do serwer:
+        scp /path/to/file.txt mateusz@globallogic.com:/path/to/destination
+
+        Skanowanie hostow w danej sieci
+        sudo apt-get install nmap
+        nmap -sn 192.168.1.0/24
+
+	-Struktura plikow systemowych:
+        / - folder główny - główny katalog tworzący oddzielna partycję
+        bin - wykonywalne pliki narzędzi systemowych
+        boot - kernel i bootloader (GRUB)
+        dev - punkty dostepu do urzadzen
+        etc - ustaweinia systemowe i configi
+        home - foldery domowe uzytkownikow
+        lib - biblioteki dla programow z bin i sbin
+        mnt - punkt montowania innych niz natywny system plikow
+        media - punkt montowan cd
+        opt - statycznie kompilowane aplikacje
+        proc - wirtualny system plikow informujacy o stanie systemu, procesów
+        root - katalog domowy uzytkowniak root
+        sbin - pliki wykonywalne do zarzadzania systemem
+        tmp - pliki tymczasowe
+        usr - dokumentacja systemow i programy uzytkownika
+        var - pliki czesto ulegajace zmianom jak bazy dancyh, logi
+
+	-Procesy:
+        -Kazdy proces ma PID
+        -Procesy dzieci maja PPID po zakonczeniu pracy rodzica adoptuje je init albo systemd
+        -Planista odpowiada za kolejke procesów
+5. GIT:
+    -Czym jest git:
+        Jest to system kontroli wersji ktory rejestruje zmiany w plikach a nastepnie pozwala przejrzec wersje tych plikow.
+        W przypadku wprowadzenia blednego kodu do pliku mozna cofnac wersje oprogramowania do poprzedniej bez bledow
+
+
+    -Operacje na git:
+        - Dodanie konta GitHub:
+            git config --global user.name "Mat358"
+
+            git config --global user.email "mat.mielcz@gmail.com"
+
+            git config --global --list 
+        -Stworzenie git w folderze:
+            -git --version - wiadomo
+            -cd do folderu (mozna prawy na folder i git here)
+            -git init - Tworzy git w folderze
+            -git add plik.txt - dodaje plik do repo
+                -git add . - dodaje all
+            -git status - sprawdza branch i zmiany
+            -git commit - commituje
+                -klikamy I zeby dodac koment i piszemy
+                -Potem ESC i :wq zeby commitnac
+            -git commit -m 'komentarz' - commit od razu z komentarzem
+            -git push - push na repo np. GitHub
+                git remote add testy https://github.com/Mat358/testy - najpierw remote zeby poalczyc z repo
+                git push testy - potem push na ktore repo
+            -git pull - analogicznie jak wyzej
+            -git clonne link_do_repo  - kopiuje repo z git do biezacego folderu
+        
+        -Branche:
+            git branch nazwa - robi branch ale nie zmienia na niego
+            git checkout nazwa - zmienia na dany branch i do niego bedzie teraz commitowac
+
+
+        
+        
+        -Dodawanie SSH:
+            ssh-keygen -t ed25519 -C "mat.mielcz@gmail.com"
+
+
+
+6. Networking:
+	-Model OSI
+
+        7. Aplikacji:
+            -warstwa w ktorej uzytkownik dziala z aplikacjami np. przegladarka
+        6. Presentacji:
+            -Przetwarza dane warsty aplikacji do postaci kanonicznej zeby nizsze warstwy otrzymywaly dane zawsze w tym samym formacie
+            i analogicznie tlumaczy dane w postaci kanonicznej na dane zrozumiale dla warstwy aplikacji
+        5. Sesji:
+            Okresla ktora aplikacja laczy sie z ktora ustala jak dlugo system ma czekac na odpowiedz oraz
+             zapewnia wlasciwy kierunek dancyh
+        4. 
+            
+	-Model TCP/IP
+	-Ramka
+	-Pakiet
+	-Zdalne połączenie z hostem
+	-SSH
+	-Jak działa router w domu
