@@ -232,13 +232,7 @@ UART: https://pl.jf-parede.pt/uart-communication-block-diagram
     -Czym jest embedded:
         Embedded to system wbudowany - najprościej mówiąc oprogramowanie sterujące pracą
         jakiegoś urządzenia od wewnątrz, czyli gdy urządzenie zawiera w sobie kontroler.
-        np. Fotokomorka bramy, w przypadku przeszkody ruch bramy sie zatrzymuje.
-
-        Prosta zasada dzialania:
-            -Mamy input np. fotokomorka wysyla dane do systemu wbudowanego
-            -System podejmuje decyzje np. ze czujka jest zaslonieta i wysyla sygnal do silnika bramy
-            -Silnik bramy staje
-
+       
 
 	-Interfejs SPI:
         *EEPROM - elektrycznie kasowalna i programowalna pamięć tylko do odczytu 
@@ -279,9 +273,11 @@ UART: https://pl.jf-parede.pt/uart-communication-block-diagram
                     rejestr wstrzymania odbioru
                     rejestr przesuwny - przesuwa bity w lewo lub prawo do momentu wyslania
                     logike sterowania - odpowiada za informacje kiedy zapisywac lub odczytywac dane
+
                 -Generator:
                     Generuje predkosc gdy nadajnik i odbiornik musza przeslac dane
                      w zakresie 100 bps do 230400 bps
+                     
             Komunikacja w UART:
                 Sa dwa typy:
                     -Transmitujace UART
@@ -383,6 +379,13 @@ UART: https://pl.jf-parede.pt/uart-communication-block-diagram
         -Kazdy proces ma PID
         -Procesy dzieci maja PPID po zakonczeniu pracy rodzica adoptuje je init albo systemd
         -Planista odpowiada za kolejke procesów
+
+//////////////////////////////////////////////////////////////////////////////////////////////
+**********************************************************************************
+**********************************************************************************
+**********************************************************************************
+//////////////////////////////////////////////////////////////////////////////////////////////
+
 5. GIT:
     -Czym jest git:
         Jest to system kontroli wersji ktory rejestruje zmiany w plikach a nastepnie pozwala przejrzec wersje tych plikow.
@@ -417,30 +420,42 @@ UART: https://pl.jf-parede.pt/uart-communication-block-diagram
             git branch nazwa - robi branch ale nie zmienia na niego
             git checkout nazwa - zmienia na dany branch i do niego bedzie teraz commitowac
 
-
-        
-        
         -Dodawanie SSH:
             ssh-keygen -t ed25519 -C "mat.mielcz@gmail.com"
 
-
+//////////////////////////////////////////////////////////////////////////////////////////////
+**********************************************************************************
+**********************************************************************************
+**********************************************************************************
+//////////////////////////////////////////////////////////////////////////////////////////////
 
 6. Networking:
-	-Model OSI
+	-Pakiet(warstwa sieciowa):
+        -Nagłówek - MAC zrodła i celu
+        -Dane - pakiety warstwy sieciowej/internetowej
+        -Stopka - sygnal koncowy ramki
+    
+	-Ramka(warstwa łącza danych):
+        -Nagłówek - MAC zrodła i celu
+        -Dane - pakiety warstwy sieciowej/internetowej
+        -Stopka - sygnal koncowy ramki
 
-        7. Aplikacji:
-            -warstwa w ktorej uzytkownik dziala z aplikacjami np. przegladarka
-        6. Presentacji:
-            -Przetwarza dane warsty aplikacji do postaci kanonicznej zeby nizsze warstwy otrzymywaly dane zawsze w tym samym formacie
-            i analogicznie tlumaczy dane w postaci kanonicznej na dane zrozumiale dla warstwy aplikacji
-        5. Sesji:
-            Okresla ktora aplikacja laczy sie z ktora ustala jak dlugo system ma czekac na odpowiedz oraz
-             zapewnia wlasciwy kierunek dancyh
-        4. 
-            
-	-Model TCP/IP
-	-Ramka
-	-Pakiet
-	-Zdalne połączenie z hostem
-	-SSH
-	-Jak działa router w domu
+        Proces wysylania:
+            1.Enkapsulacj - IP zrodla i celu, Port zrodla i celu | powstal pakietu
+            2.Do ramki dodajemy MAC PC (zrodlo) i naszego routera (cel)
+            3.Dekapslacja - znajduje droge do rutera docelowego i robi nowa ramke
+            4.Dotarcie do routera (cel) dekapsulacja sprawdza cel
+            5.Wysyla pakiet do hosta
+            6.Wraca tak samo jak powyzej
+
+	-Zdalne połączenie z hostem:
+        ssh mateusz@globallogic.com
+
+	-SSH:
+        -Protokol komunikacyjny w sieciach TCP/IP szyfrowany,
+        sluzy do polaczenia z komputerem za pomoca terminala - nastepca telnet
+        Mozna uzyskac dostep do powloki i zarzadac urzadzeniem np prawa do plikow
+
+	-Jak działa router w domu:
+        -wezel komunikacyjny ktory za pomoca informacji z pakietow tcp/ip jest w stanie
+        wysylac i odbierac pakiety
