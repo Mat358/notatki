@@ -440,13 +440,15 @@ UART: https://pl.jf-parede.pt/uart-communication-block-diagram
         -Dane - pakiety warstwy sieciowej/internetowej
         -Stopka - sygnal koncowy ramki
 
-        Proces wysylania:
-            1.Enkapsulacj - IP zrodla i celu, Port zrodla i celu | powstal pakietu
-            2.Do ramki dodajemy MAC PC (zrodlo) i naszego routera (cel)
-            3.Dekapslacja - znajduje droge do rutera docelowego i robi nowa ramke
-            4.Dotarcie do routera (cel) dekapsulacja sprawdza cel
-            5.Wysyla pakiet do hosta
-            6.Wraca tak samo jak powyzej
+		Proces wysylania:
+		https://pasja-informatyki.pl/sieci-komputerowe/ramka-warstwy-lacza-danych-i-komunikacja/
+		
+		    1.Enkapsulacj - IP zrodla i celu, Port zrodla i celu | powstal pakietu
+		    2.Do ramki dodajemy MAC PC (zrodlo) i naszego routera (cel)
+		    3.Dekapslacja - znajduje droge do rutera docelowego i robi nowa ramke
+		    4.Dotarcie do routera (cel) dekapsulacja sprawdza cel
+		    5.Wysyla pakiet do hosta
+		    6.Wraca tak samo jak powyzej
 
 	-Zdalne połączenie z hostem:
         ssh mateusz@globallogic.com
